@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardar Componente</title>
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2>Guardar Componente</h2>
+
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('router.save_component') }}">
+            <div class="mb-3">
+                <label for="id" class="form-label">ID</label>
+                <input type="number" class="form-control" id="id" name="id" required>
+            </div>
+            <div class="mb-3">
+                <label for="type" class="form-label">Tipo</label>
+                <input type="text" class="form-control" id="type" name="type" required>
+            </div>
+            <div class="mb-3">
+                <label for="value" class="form-label">Valor</label>
+                <input type="number" class="form-control" id="value" name="value" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripción</label>
+                <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+
+        <a href="{{ url_for('router.component_list') }}" class="btn btn-primary">Ver Componentes</a>
+    </div>
+
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Arista</title>
+</head>
+<body>
+    <h1>Agregar Arista entre Componentes</h1>
+
+  
+    <form action="{{ url_for('router.add_edge') }}" method="POST">
+        <label for="id1">Componente 1:</label>
+        <select id="id1" name="id1">
+            {% for component in components %}
+                <option value="{{ component.id }}">{{ component.type }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <label for="id2">Componente 2:</label>
+        <select id="id2" name="id2">
+            {% for component in components %}
+                <option value="{{ component.id }}">{{ component.type }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <label for="weight">Peso de la arista:</label>
+        <input type="number" id="weight" name="weight" step="any" required>
+        <br><br>
+
+        <button type="submit">Agregar Arista</button>
+    </form>
+
+  
+    {% if response %}
+        <div class="response">
+            <p><strong>{{ response.msg }}:</strong> {{ response.data }}</p>
+        </div>
+    {% endif %}
+</body>
+</html>

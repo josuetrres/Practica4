@@ -1,0 +1,46 @@
+{
+  "nodes": [
+    {
+      "id": 0,
+      "label": "Capacitor"
+    },
+    {
+      "id": 1,
+      "label": "exampleType"
+    },
+    {
+      "id": 2,
+      "label": "Resistor"
+    },
+    {
+      "id": 3,
+      "label": "LED"
+    },
+    {
+      "id": 4,
+      "label": "Servomotor"
+    }
+  ],
+  "edges": [
+    {
+      "weight": 1.0,
+      "from": 0,
+      "to": 1
+    },
+    {
+      "weight": 4.0,
+      "from": 1,
+      "to": 2
+    },
+    {
+      "weight": 2.0,
+      "from": 2,
+      "to": 3
+    },
+    {
+      "weight": 3.0,
+      "from": 3,
+      "to": 4
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Componentes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Lista de Componentes</h2>
+
+    <!-- Tabla de componentes -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="componentesTable">
+            {% for component in lista %}
+            <tr>
+                <td>{{ component.id }}</td>
+                <td>{{ component.type }}</td>
+                <td>{{ component.value }}</td>
+                <td>{{ component.description }}</td>
+                <td>
+                    <a href="{{ url_for('router.update_component', component_id=component.id) }}" class="btn btn-warning btn-sm">Actualizar</a>
+                    <form action="{{ url_for('router.delete_component', id=component.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este componente?');">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('router.save_component') }}" class="btn btn-success">Agregar Nuevo Componente</a>
+    <a href="{{ url_for('router.home') }}" class="btn btn-primary">Home</a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</body>
+</html>
