@@ -33,7 +33,7 @@
         <div class="list-group">
             <a href="{{ url_for('router.component_list') }}" class="list-group-item list-group-item-action">Ver Lista de Componentes</a>
             <a href="{{ url_for('router.save_component') }}" class="list-group-item list-group-item-action">Agregar Nuevo Componente</a>
-            <a href="{{ url_for('router.graph') }}" class="list-group-item list-group-item-action">Ver Grafo</a>
+            <a href="{{ url_for('router.get_graph') }}" class="list-group-item list-group-item-action">Ver Grafo</a>
             <a href="{{ url_for('router.add_edge') }}" class="list-group-item list-group-item-action">Agregar Conexion</a>
             <form action="{{ url_for('router.update_graph') }}" class="list-group-item list-group-item-action" method="POST">
                 <button type="submit" class="btn btn-primary">Actualizar Grafo</button>

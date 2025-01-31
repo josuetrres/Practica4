@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Circuito Eléctrico</title>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vis-network@9.0.4/dist/vis-network.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/vis-network@9.0.4/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div id="network" style="height: 600px;"></div>
+  <div>
+    <!-- Añadir campos de entrada para seleccionar los nodos -->
+    <label for="start">Nodo de inicio: </label>
+    <input type="number" id="start" placeholder="Nodo de inicio">
+    <label for="end">Nodo de fin: </label>
+    <input type="number" id="end" placeholder="Nodo de fin">
+    <button id="find-path">Buscar Camino Más Corto</button>
+  </div>
+
+  <script type="text/javascript">
+    var graphData = {{ data | tojson }};
+    
+    var nodes = new vis.DataSet(graphData.nodes);
+    
+    var edges = new vis.DataSet(graphData.edges.map(edge => {
+      return {
+        from: edge.from,
+        to: edge.to,
+        label: edge.weight.toString(), // Aquí agregamos el peso como label
+        weight: edge.weight
+      };
+    }));
+
+    var container = document.getElementById('network');
+    
+    var data = {
+      nodes: nodes,
+      edges: edges
+    };
+    
+    var options = {
+      physics: {
+        enabled: true,
+        barnesHut: {
+          gravitationalConstant: -20000,  // Aumenta la repulsión entre nodos
+          centralGravity: 0.3,
+          springLength: 300,  // Aumenta la distancia preferida entre nodos conectados
+          springConstant: 0.02, 
+          damping: 0.1
+        }
+      },
+      nodes: {
+        shape: 'dot',
+        size: 16,
+        font: {
+          size: 14,
+          color: 'black'  // Cambiar color de texto de los nodos
+        },
+        color: {
+          background: '#97C2FC', // Color de fondo del nodo
+          border: '#2B7CE9', // Color del borde del nodo
+          highlight: {
+            background: '#D2E5FF',
+            border: '#2B7CE9'
+          }
+        }
+      },
+      edges: {
+        width: 2,
+        color: {inherit: 'from'},
+        smooth: {
+          type: 'continuous'
+        },
+        font: {
+          size: 14,
+          align: 'top',
+          color: 'black'  // Color del texto del peso de las aristas
+        }
+      },
+      interaction: {
+        hover: true
+      }
+    };
+    
+    var network = new vis.Network(container, data, options);
+
+    // Algoritmo de Dijkstra para encontrar el camino más corto
+    function dijkstra(start, end, edges) {
+      const distances = {};
+      const previous = {};
+      const queue = [];
+
+      // Inicializa las distancias y la cola
+      for (let i = 0; i < nodes.length; i++) {
+        distances[i] = Infinity;
+        previous[i] = null;
+        queue.push(i);
+      }
+
+      distances[start] = 0;
+
+      while (queue.length > 0) {
+        // Nodo con la distancia mínima
+        const currentNode = queue.reduce((minNode, node) => {
+          return distances[node] < distances[minNode] ? node : minNode;
+        }, queue[0]);
+
+        if (currentNode === end) break; // Si llegamos al nodo final
+
+        // Eliminar el nodo de la cola
+        queue.splice(queue.indexOf(currentNode), 1);
+
+        // Recorre las aristas del nodo actual
+        const neighbors = edges.filter(edge => edge.from === currentNode || edge.to === currentNode);
+        for (const edge of neighbors) {
+          const neighbor = edge.from === currentNode ? edge.to : edge.from;
+          const alt = distances[currentNode] + edge.weight;
+
+          if (alt < distances[neighbor]) {
+            distances[neighbor] = alt;
+            previous[neighbor] = currentNode;
+          }
+        }
+      }
+
+      // Reconstruir el camino
+      const path = [];
+      let current = end;
+      while (previous[current] !== null) {
+        path.unshift(current);
+        current = previous[current];
+      }
+      path.unshift(start);
+
+      return path;
+    }
+
+    // Función para buscar el camino más corto
+    document.getElementById('find-path').addEventListener('click', function() {
+      var startNode = parseInt(document.getElementById('start').value);
+      var endNode = parseInt(document.getElementById('end').value);
+
+      // Validar entrada
+      if (!startNode || !endNode) {
+        alert('Por favor, ingresa nodos de inicio y fin.');
+        return;
+      }
+
+      // Calcular el camino más corto usando Dijkstra
+      const path = dijkstra(startNode, endNode, graphData.edges);
+
+      if (path.length === 1) {
+        alert('No se encontró un camino entre los nodos.');
+        return;
+      }
+
+      // Resaltar el camino más corto
+      var pathEdges = [];
+      for (var i = 0; i < path.length - 1; i++) {
+        var from = path[i];
+        var to = path[i + 1];
+        
+        // Encuentra la arista entre estos dos nodos
+        var edge = edges.get({ filter: function(item) {
+          return (item.from === from && item.to === to) || (item.from === to && item.to === from);
+        }})[0];
+        
+        // Cambiar el color de la arista
+        edge.color = { color: '#ff0000' };  // Cambiar color para resaltar
+        pathEdges.push(edge);
+      }
+
+      edges.update(pathEdges);  // Actualiza las aristas resaltadas
+    });
+  </script>
+</body>
+</html>

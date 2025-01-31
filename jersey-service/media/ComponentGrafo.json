@@ -6,7 +6,7 @@
     },
     {
       "id": 1,
-      "label": "exampleType"
+      "label": "LED"
     },
     {
       "id": 2,
@@ -23,22 +23,52 @@
   ],
   "edges": [
     {
-      "weight": 1.0,
+      "weight": 77.100716,
       "from": 0,
       "to": 1
     },
     {
-      "weight": 4.0,
+      "weight": 35.583656,
+      "from": 0,
+      "to": 2
+    },
+    {
+      "weight": 33.21495,
+      "from": 0,
+      "to": 3
+    },
+    {
+      "weight": 67.12679,
+      "from": 0,
+      "to": 4
+    },
+    {
+      "weight": 18.035467,
       "from": 1,
       "to": 2
     },
     {
-      "weight": 2.0,
+      "weight": 22.936052,
+      "from": 1,
+      "to": 3
+    },
+    {
+      "weight": 2.6400695,
+      "from": 1,
+      "to": 4
+    },
+    {
+      "weight": 89.11024,
       "from": 2,
       "to": 3
     },
     {
-      "weight": 3.0,
+      "weight": 88.298744,
+      "from": 2,
+      "to": 4
+    },
+    {
+      "weight": 38.79512,
       "from": 3,
       "to": 4
     }

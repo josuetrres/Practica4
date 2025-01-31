@@ -25,4 +25,8 @@ public class GraphServices {
     public void addEdge(Component c1, Component c2, float weight) throws Exception {
         graphDao.addEdge(c1, c2, weight); 
     }
+
+    public GraphDao getGraphDao() {
+        return graphDao;
+    }
 }

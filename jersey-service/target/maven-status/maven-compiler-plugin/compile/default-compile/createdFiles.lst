@@ -10,6 +10,7 @@ controller/dao/implement/CableDao.class
 tda/graph/Adyacencia.class
 tda/graph/GraphDirect.class
 controller/dao/services/ComponentServices.class
+tda/graph/GraphTest.class
 com/example/rest/MyResource.class
 tda/graph/GraphLabelNoDirect.class
 com/example/rest/GraphApi.class

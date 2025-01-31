@@ -3,6 +3,7 @@ package com.example.rest;
 import java.util.HashMap;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -82,6 +83,17 @@ public Response updateGraph(String json) {
             map.put("data", "Error al agregar la arista: " + e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
         }
+    }
+
+    @Path("/get")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getGraphJson() throws Exception {
+        GraphServices gs = new GraphServices();
+
+        String jsonContent = gs.getGraphDao().readFile();
+        
+        return Response.ok(jsonContent).build();
     }
 }
 

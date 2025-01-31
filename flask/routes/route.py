@@ -128,7 +128,7 @@ def add_edge():
         weight = float(request.form['weight'])
         
       
-        r = requests.post(f'http://localhost:8080/myapp/addEdge/{id1}/{id2}/{weight}')
+        r = requests.post(f'http://localhost:8080/myapp/graph/addEdge/{id1}/{id2}/{weight}')
         result = r.json()
 
       
@@ -138,3 +138,12 @@ def add_edge():
         }
 
     return render_template('addEdge.html', components=components, response=response)
+
+@router.route('/getGraph', methods=['GET'])
+def get_graph():
+
+    r = requests.get('http://localhost:8080/myapp/graph/get')
+    
+
+    graph_data = r.json()
+    return render_template('graphCircuito.html', data=graph_data)
